@@ -6,7 +6,7 @@
 #    By: glatega <glatega@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/03 13:59:57 by glatega           #+#    #+#              #
-#    Updated: 2018/08/28 11:29:35 by glatega          ###   ########.fr        #
+#    Updated: 2018/08/31 02:06:22 by digicape         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,12 @@ CHECKER = checker
 PUSHSWAP = push_swap
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
-MINILIBX = -I minilibx -L. -lmlx -framework OpenGL -framework AppKit
+MLX = -L./libraries/mlx -lmlx -framework OpenGL -framework AppKit
+MLX_H = -I ./libraries/mlx
 COMP = $(CC) $(FLAGS)
 PUSHSWAP_H = -I ./include
-LIBFT_H = -I ./libft/include
-LIBFT = -L./libft -lft
+LIBFT_H = -I ./libraries/libft/include
+LIBFT = -L./libraries/libft -lft
 SRC_FOLDER = src/
 OBJ_FOLDER = obj/
 CHECKER_SRC_FILES =	checker.c \
@@ -138,25 +139,26 @@ PS_OBJ = $(addprefix $(OBJ_FOLDER), $(PS_OBJ_FILES))
 all: $(CHECKER) $(PUSHSWAP)
 
 $(CHECKER): $(CHECKER_OBJ)
-	make -C ./libft
-	$(COMP) $(CHECKER_OBJ) $(LIBFT) $(MINILIBX) -o $(CHECKER) 
+	make -C ./libraries/mlx
+	make -C ./libraries/libft
+	$(COMP) $(CHECKER_OBJ) $(LIBFT) $(MLX) -o $(CHECKER) 
 
 $(PUSHSWAP): $(PS_OBJ)
-	make -C ./libft
+	make -C ./libraries/libft
 	$(COMP) $(PS_OBJ) $(LIBFT) -o $(PUSHSWAP)
 
 obj:
 	mkdir -p $@
 
 $(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c | obj
-	$(COMP) -c $< $(LIBFT_H) $(PUSHSWAP_H) -o $@
+	$(COMP) -c $< $(LIBFT_H) $(MLX_H) $(PUSHSWAP_H) -o $@
 
 clean:
-	make clean -C ./libft
+	make clean -C ./libraries/libft
 	rm -rf obj
 
 fclean: clean
-	make fclean -C ./libft
+	make fclean -C ./libraries/libft
 	rm -f $(CHECKER)
 	rm -f $(PUSHSWAP)
 
