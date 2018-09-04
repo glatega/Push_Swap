@@ -17,11 +17,11 @@ char	*ft_strdup(const char *str)
 	char	*dup;
 	int		i;
 
-	dup = (char*)malloc(sizeof(char) * (int)(ft_strlen(str) + 1));
+	dup = (char*)ft_malloc(sizeof(char) * (int)(ft_strlen(str) + 1));
 	if (dup == NULL)
 		return (NULL);
 	i = 0;
-	while (i <= (int)ft_strlen(str))
+	while (i < (int)ft_strlen(str))
 	{
 		dup[i] = str[i];
 		i++;
